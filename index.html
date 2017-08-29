@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="author" content="Chris Rocco" />
+
+	<!-- Stylesheets
+	============================================= -->
+	<link href="http://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700|Crete+Round:400italic" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
+	<link rel="stylesheet" href="style.css" type="text/css" />
+	<link rel="stylesheet" href="css/dark.css" type="text/css" />
+	<link rel="stylesheet" href="css/font-icons.css" type="text/css" />
+	<link rel="stylesheet" href="css/animate.css" type="text/css" />
+	<link rel="stylesheet" href="css/magnific-popup.css" type="text/css" />
+
+	<link rel="stylesheet" href="css/responsive.css" type="text/css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<!-- Document Title
+	============================================= -->
+	<title>Polynomial Factoring Tool</title>
+
+	<!-- Externals
+	============================================= -->
+	<script src="node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+	<link rel="stylesheet" href="node_modules/sweetalert2/dist/sweetalert2.min.css">
+
+	<!-- Javascripts
+	============================================= -->
+	<script src="node_modules/mathjax/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+	<script src="node_modules/angular/angular.min.js"></script>
+	<script src="vendor/ng-mathjax/ng-mathjax.js"></script>
+	<script src="app/app.js"></script>
+
+</head>
+
+<body class="stretched" ng-app="app" ng-controller="AppController">
+
+	<!-- Document Wrapper
+	============================================= -->
+	<div id="wrapper" class="clearfix">
+
+		<!-- Header
+		============================================= -->
+		<!-- TODO: add a header? maybe? -->
+		<!-- #header end -->
+
+		<!-- Content
+		============================================= -->
+		<section id="content">
+
+			<div class="content-wrap">
+                <div id="portfolio-ajax-wrap" class="portfolio-ajax-opened">
+                    <div id="portfolio-ajax-container" style="display: block;"></div>
+                </div>
+                <div id="portfolio-ajax-loader" style="display: none"><img src="images/preloader-dark.gif" alt="Preloader"></div>
+
+				<div ng-show="result===false" class="container clearfix">
+
+					<div id="section-home" class="heading-block title-center nobottomborder page-section">
+						<h1>Factor Arbitrary Polynomials</h1>
+						<span>Enter your expression below, and click go!</span>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6 col-md-offset-3">
+							<div class="center">
+								<input class="sm-form-control center" ng-model="expression"/>
+							</div>
+
+							<div class="center">
+								<h3 mathjax-bind="expression">loading...</h3>
+							</div>
+
+							<div class="center bottommargin">
+								<button ng-click="handleGo()" class="button button-3d">Go!</button>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<div ng-hide="result===false" class="container clearfix">
+
+					<div class="col_two_fifth nobottommargin col_last">
+						<div class="heading-block title-center">
+							<h3>You Entered:</h3>
+							<span mathjax-bind="expression"></span>
+						</div>
+						<div class="heading-block title-center">
+							<h3>Result:</h3>
+							<span mathjax-bind="result"></span>
+						</div>
+					</div>
+
+					<div class="col_three_fifth nobottommargin">
+
+						<div class="fancy-title title-bottom-border">
+							<h3>Step By Step Breakdown</h3>
+						</div>
+
+						<p>Factoring polynomials gets pretty hard past 3 terms. We must resort to more complex techniques like ___ and synthetic division.</p>
+
+						<div class="accordion accordion-bg clearfix">
+
+							<div class="acctitle">
+								<i class="acc-closed icon-ok-circle"></i>
+								<i class="acc-open icon-remove-circle"></i>
+                                Step One: Zero Roots
+                            </div>
+							<div class="acc_content clearfix">
+
+							</div>
+
+							<div class="acctitle">
+                                <i class="acc-closed icon-ok-circle"></i>
+                                <i class="acc-open icon-remove-circle"></i>
+                                Step Two: Gaussian Something
+                            </div>
+							<div class="acc_content clearfix">
+
+							</div>
+
+							<div class="acctitle">
+                                <i class="acc-closed icon-ok-circle"></i>
+                                <i class="acc-open icon-remove-circle"></i>
+                                Step Three: Profit
+                            </div>
+							<div class="acc_content clearfix">
+
+							</div>
+
+						</div>
+
+						<a ng-click="handleTryAgain()" class="button button-3d button-black nomargin pull-right">
+							Try Again
+						</a>
+
+					</div>
+
+				</div>
+
+			</div>
+		</section><!-- #content end -->
+
+		<!-- Footer
+		============================================= -->
+		<!-- TODO: add a footer? maybe? -->
+		<!-- #footer end -->
+
+	</div><!-- #wrapper end -->
+
+	<!-- Go To Top
+	============================================= -->
+	<div id="gotoTop" class="icon-angle-up"></div>
+
+	<!-- External JavaScripts
+	============================================= -->
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/plugins.js"></script>
+
+	<!-- Footer Scripts
+	============================================= -->
+	<script type="text/javascript" src="js/functions.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "p-roots",
+  "version": "1.0.0",
+  "description": "Education software that factors polynomial expressions of arbitrary length and provides a step-by-step breakdown",
+  "scripts": {},
+  "keywords": [
+    "factor",
+    "polynomials"
+  ],
+  "author": "Chris Rocco",
+  "license": "ISC",
+  "dependencies": {
+    "angular": "^1.6.6",
+    "mathjax": "^2.7.2",
+    "sweetalert2": "^6.6.9"
+  }
+}

@@ -8,3 +8,7 @@
 .has-error {
     border-color: darkred;
 }
+
+.spinner {
+    max-height: 100%;
+}

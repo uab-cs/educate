@@ -30,11 +30,11 @@ function AppController($scope){
     /*=====================================================*/
 
     function handleGo(){
-        $("#portfolio-ajax-loader").show();
+        $scope.loading = true;
         setTimeout(function(){
             $scope.result = "4x^3 - 10y^2 + 13z + 25";
+            $scope.loading = false;
             $scope.$apply();
-            $("#portfolio-ajax-loader").hide();
         }, 2000);
         // swal("Coming Soon!", "This page is under development", "info");
     }

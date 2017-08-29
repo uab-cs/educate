@@ -17,6 +17,9 @@ function AppController($scope){
 
     /* constructor */
     function init(){
+        /* for debugging purposes only*/
+        window.scope = $scope;
+        /* end */
         MathJax.Hub.Config({
             tex2jax: {
                 inlineMath: [['$','$'], ['\\(','\\)']],

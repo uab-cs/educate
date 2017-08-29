@@ -8,7 +8,7 @@ app.controller("AppController", AppController);
 
 function AppController($scope){
     /* data model */
-    $scope.expression = "$$ 4x^3 - 10y^2 + 13z + 25 $$";
+    $scope.expression = "4x^3 - 10y^2 + 13z + 25";
     $scope.result = false;
 
     /* functions */
@@ -32,7 +32,7 @@ function AppController($scope){
     function handleGo(){
         $("#portfolio-ajax-loader").show();
         setTimeout(function(){
-            $scope.result = "$$ (x + 5)(y - 3)(z + 12) $$";
+            $scope.result = "4x^3 - 10y^2 + 13z + 25";
             $scope.$apply();
             $("#portfolio-ajax-loader").hide();
         }, 2000);

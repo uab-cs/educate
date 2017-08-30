@@ -5,6 +5,10 @@
 	Overwriting Default Theme Styles for Better Hanlding Updates
 -----------------------------------------------------------------*/
 
+.has-error {
+    border-color: darkred;
+}
 
-
-
+.spinner {
+    max-height: 100%;
+}

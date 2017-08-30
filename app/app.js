@@ -9,7 +9,7 @@ app.controller("AppController", AppController);
 AppController.$inject = ['$scope'];
 function AppController($scope){
     /* data model */
-    $scope.expression = "$$ 4x^3 - 10y^2 + 13z + 25 $$";
+    $scope.expression = "4x^3 - 10y^2 + 13z + 25";
     $scope.result = false;
 
     /* functions */
@@ -18,6 +18,9 @@ function AppController($scope){
 
     /* constructor */
     function init(){
+        /* for debugging purposes only*/
+        window.scope = $scope;
+        /* end */
         MathJax.Hub.Config({
             tex2jax: {
                 inlineMath: [['$','$'], ['\\(','\\)']],
@@ -31,11 +34,11 @@ function AppController($scope){
     /*=====================================================*/
 
     function handleGo(){
-        $("#portfolio-ajax-loader").show();
+        $scope.loading = true;
         setTimeout(function(){
-            $scope.result = "$$ (x + 5)(y - 3)(z + 12) $$";
+            $scope.result = "4x^3 - 10y^2 + 13z + 25";
+            $scope.loading = false;
             $scope.$apply();
-            $("#portfolio-ajax-loader").hide();
         }, 2000);
         // swal("Coming Soon!", "This page is under development", "info");
     }

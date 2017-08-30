@@ -2,6 +2,7 @@ module.exports = class Polynomial {
     constructor(){
         this.monomials = [];
         this.constant = null;
+        this.symbol = null;
     }
 
     mono(ind){
@@ -15,5 +16,8 @@ module.exports = class Polynomial {
     }
     leadingCo(){
         return this.mono(0).co();
+    }
+    sym(){
+        return this.symbol;
     }
 };

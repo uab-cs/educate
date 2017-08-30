@@ -9,55 +9,57 @@ describe("Solver Test", function() {
     let parser = new Parser();
     let polynomial;
 
+    let exExpressions = [
+        "15x^3 + 14x^2 - 3x - 2",
+        "x^4 + 2x^3 - 7x^2 - 8x + 12",
+        "2x^3 + 3x - 5",
+        "+x^5 - x^4 + 3x^3 + 9x^2 - x + 5",
+        "3x^4 + 10x^3 - 11x^2 - 10x + 8"
+    ];
+
     it("Should find potential roots", function(){
         // problem taken from http://www.purplemath.com/modules/rtnlroot.htm
-        polynomial = parser.parsePolynomial("x^4 + 2x^3 - 7x^2 - 8x + 12");
+        polynomial = parser.parsePolynomial(exExpressions[1]);
         let potential = solver.potentialZeros(polynomial);
         let zeros = solver.testZeros(polynomial, potential);
-        // expect(zeros.toString()).toEqual([1,2,-2,-3].toString());
+        expect(math.number(zeros[0])).toEqual(1);
+        expect(math.number(zeros[1])).toEqual(2);
+        expect(math.number(zeros[2])).toEqual(-2);
+        expect(math.number(zeros[3])).toEqual(-3);
     });
 
     it("Should find potential roots #2", function(){
         // problem taken from http://www.purplemath.com/modules/rtnlroot2.htm
-        polynomial = parser.parsePolynomial("2x^3 + 3x - 5");
+        polynomial = parser.parsePolynomial(exExpressions[2]);
         let potential = solver.potentialZeros(polynomial);
         let zeros = solver.testZeros(polynomial, potential);
-        // expect(zeros.toString()).toEqual([1].toString());
+        expect(math.number(zeros[0])).toEqual(1);
     });
 
     it("Should implement Descartes' Rule of Signs", function(){
         // problem taken from http://www.purplemath.com/modules/rtnlroot2.htm
-        polynomial = parser.parsePolynomial("+x^5 - x^4 + 3x^3 + 9x^2 - x + 5");
+        polynomial = parser.parsePolynomial(exExpressions[3]);
         let maxPosZeros = solver.maxPositiveZeros(polynomial);
         let maxNegZeros = solver.maxNegativeZeros(polynomial);
         expect(maxPosZeros).toEqual(4);
         expect(maxNegZeros).toEqual(1);
     });
 
-    describe("Divider Test", function(){
-        it("Should divied polynomials", function(){
-            let myPoly = parser.parsePolynomial("15x^3 + 14x^2 - 3x - 2");
-            let myDiv = parser.parsePolynomial("x+3");
-            Polynomial.trace = true;
-            let res = new Polynomial(myPoly.expression).div(myDiv.expression);
-        });
+    it("Should be able to find rational zeros", function(){
+        // problem taken from http://www.purplemath.com/modules/rtnlroot2.htm
+        // polynomial = parser.parsePolynomial(exExpressions[0]);
+        // polynomial = parser.parsePolynomial("3x^3 + 17x^2 + 5x - 25");
+        polynomial = parser.parsePolynomial("4x^4 + 13x^3 - 49x^2 - 73x - 15");
+        let pot = solver.potentialZeros(polynomial);
+        let zeros = solver.testZeros(polynomial, pot);
+        let exp = solver.getFactoredExpression(polynomial, zeros);
+        // expect(math.number(zeros[1])).toEqual(-1);
+        console.log(zeros);
+        console.log(exp);
 
-        it("all together now", function(){
-            // problem taken from http://sites.csn.edu/istewart/Math126/zeros_theorem/zeros_theorem.htm
-            // let polynomial = parser.parsePolynomial("15x^3 + 14x^2 - 3x - 2");
-            let polynomial = parser.parsePolynomial("2x^3 - x^2 + 2x - 1");
-            let potential = solver.potentialZeros(polynomial);
-            let zeros = solver.testZeros(polynomial, potential);
-
-            let firstZero = math.number(zeros[0]);
-            let linearFactor = `x - ${firstZero}`;
-            console.log("exp", polynomial.expression);
-            console.log("denom", linearFactor);
-            Polynomial.trace = true;
-            let res = new Polynomial(polynomial.expression).div(new Polynomial("x - 1/2"));
-            console.log(Polynomial.trace);
-            // console.log(zeros);
-        });
-    })
+        let node = math.parse(exp);
+        console.log(node.toString());
+        console.log(node.toTex());
+    });
 
 });

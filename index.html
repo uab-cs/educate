@@ -36,12 +36,14 @@
 	<script src="es/dist/bundle.js"></script>
 	<!-- mathjax -->
 	<script src="node_modules/mathjax/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+	<script src="node_modules/mathjs/dist/math.min.js"></script>
 	<!-- angular app -->
 	<script src="node_modules/angular/angular.min.js"></script>
 	<script src="vendor/ng-mathjax/ng-mathjax.js"></script>
 	<script src="app/app.js"></script>
 	<script src="app/validators/polynomial.directive.js"></script>
 	<script src="app/polynomial/poly.service.js"></script>
+	<script src="app/polynomial/solver.service.js"></script>
 
 </head>
 
@@ -135,60 +137,76 @@
 
 				<div ng-hide="result===false" class="container clearfix">
 
-					<div class="col_two_fifth nobottommargin col_last">
-						<div class="heading-block title-center">
-							<h3>You Entered:</h3>
-							<span mathjax-bind="expression"></span>
-						</div>
-						<div class="heading-block title-center">
-							<h3>Result:</h3>
-							<span mathjax-bind="'$$'+result+'$$'"></span>
-						</div>
-					</div>
+					<div class="row">
+						<div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2">
 
-					<div class="col_three_fifth nobottommargin">
-
-						<div class="fancy-title title-bottom-border">
-							<h3>Step By Step Breakdown</h3>
-						</div>
-
-						<p>Factoring polynomials gets pretty hard past 3 terms. We must resort to more complex techniques like ___ and synthetic division.</p>
-
-						<div class="accordion accordion-bg clearfix">
-
-							<div class="acctitle">
-								<i class="acc-closed icon-ok-circle"></i>
-								<i class="acc-open icon-remove-circle"></i>
-                                Step One: Zero Roots
-                            </div>
-							<div class="acc_content clearfix">
-
+							<div>
+								<div class="heading-block title-center">
+									<h3>You Entered:</h3>
+									<span mathjax-bind="expression"></span>
+								</div>
+								<div class="heading-block title-center">
+									<h3>Result:</h3>
+									<span mathjax-bind="'$$'+result+'$$'"></span>
+								</div>
 							</div>
 
-							<div class="acctitle">
-                                <i class="acc-closed icon-ok-circle"></i>
-                                <i class="acc-open icon-remove-circle"></i>
-                                Step Two: Gaussian Something
-                            </div>
-							<div class="acc_content clearfix">
+							<div>
+								<div class="fancy-title title-bottom-border">
+									<h3>Step By Step Breakdown</h3>
+								</div>
 
+								<p>Factoring polynomials gets pretty hard past 3 terms. We must resort to more complex techniques like ___ and synthetic division.</p>
+
+								<div class="accordion accordion-bg clearfix">
+
+									<div class="acctitle">
+										<i class="acc-closed icon-ok-circle"></i>
+										<i class="acc-open icon-remove-circle"></i>
+										Step One: Potential Zeros
+									</div>
+									<div class="acc_content clearfix">
+										<h5>First we use some math voodoo to generate this list of <em>potential</em> zeros</h5>
+										<div class="row">
+											<div ng-repeat="zero in potentialZeros" class="col-sm-3">
+												<p>{{solverService.fractionToString(zero)}}</p>
+											</div>
+										</div>
+									</div>
+
+									<div class="acctitle">
+										<i class="acc-closed icon-ok-circle"></i>
+										<i class="acc-open icon-remove-circle"></i>
+										Step Two: Check for Rational Zeros
+									</div>
+									<div class="acc_content clearfix">
+										<h5>When we evaluate every one of our potential zeros, only these proved to be <em>actual</em> zeros</h5>
+										<div class="row">
+											<div ng-repeat="zero in rationalZeros" class="col-sm-3">
+												<p>{{solverService.fractionToString(zero)}}</p>
+											</div>
+										</div>
+									</div>
+									<div class="acctitle">
+										<i class="acc-closed icon-ok-circle"></i>
+										<i class="acc-open icon-remove-circle"></i>
+										Step Three: Finding Linear Factors
+									</div>
+									<div class="acc_content clearfix">
+										<h5>Please remember that "linear factors" are of the form ax + b, where a and b are constants and the variable has a power of 1.
+											We have learned earlier that if a number r is a Zero of the polynomial function, then  is a linear factor of the function.
+											Knowing this we can write any polynomial function as a product of linear factors by simply replacing the r in the linear factor,
+											in turn, with every Zero and then connecting all of the linear factors with multiplication.</h5>
+										<h4 mathjax-bind="'$$'+result+'$$'"></h4>
+									</div>
+
+								</div>
+
+								<a ng-click="handleTryAgain()" class="button button-3d button-black nomargin pull-right">
+									Try Again
+								</a>
 							</div>
-
-							<div class="acctitle">
-                                <i class="acc-closed icon-ok-circle"></i>
-                                <i class="acc-open icon-remove-circle"></i>
-                                Step Three: Profit
-                            </div>
-							<div class="acc_content clearfix">
-
-							</div>
-
 						</div>
-
-						<a ng-click="handleTryAgain()" class="button button-3d button-black nomargin pull-right">
-							Try Again
-						</a>
-
 					</div>
 
 				</div>

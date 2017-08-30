@@ -55,6 +55,7 @@ module.exports = class Parser {
         poly.monomials = monomials;
         poly.constant = constant;
         poly.expression = exp;
+        poly.symbol = monomials[0].sym();
 
         /* do some validation */
         if (!this.validateDegOrder(poly)) return this.fail("Bad order of degrees. Should be descending");

@@ -1,4 +1,4 @@
 angular.module("app")
 .factory("polyService", function(){
-    return new PolyParse();
+    return new Parser();
 });

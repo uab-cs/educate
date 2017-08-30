@@ -55,7 +55,7 @@ function AppController($scope, polyService){
     }
 
     function parse(expression){
-        let p  = polyService.parse(expression);
+        let p  = polyService.parsePolynomial(expression);
         console.log(expression, p);
         if(p === false) return;
         $scope.polynomial = p;

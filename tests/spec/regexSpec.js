@@ -1,8 +1,9 @@
+const Parser = require("../../es/src/Parser");
 const Monomial = require("../../es/src/Monomial");
 
 describe("Regex Test", function() {
 
-    let regex = Monomial.pattern;
+    let regex = Parser.monomialPattern;
     let subject;
 
     it("Should parse a monomial", function() {

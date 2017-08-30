@@ -1,39 +1,42 @@
 const Monomial = require("./Monomial");
+const Polynomial = require("./Polynomial");
 
-module.exports = class Polynomial {
-    static get pattern(){
+module.exports = class Parser {
+
+    static get monomialPattern(){
+        return /^([-+])?(\d+)?([a-z])(?:\^(\d+))?$/;
+    }
+    static get polynomialPattern(){
         return /(?=[+-])/g;
     }
 
-    constructor(){
-        this.monomials = [];
-        this.constant = null;
+    parseMonomial(expression){
+        let exp = expression.replace(/\s/g,'');
+        let result = Parser.monomialPattern.exec(exp);
+        if(!result) return false;
+        // interpret captures and set defaults
+        let sign =          result[1] || "+";
+        let coefficient =   result[2] || 1;
+        let variable =      result[3];
+        let degree =        result[4] || 1;
+        if(sign === "-") coefficient *= -1;
+        // construct monomial
+        let m = new Monomial();
+        m.coefficient = parseInt(coefficient);
+        m.degree = parseInt(degree);
+        return m;
     }
-
-    mono(ind){
-        if(this.monomials[ind]) return this.monomials[ind];
-    }
-    size(){
-        return this.monomials.length;
-    }
-    cons(){
-        return this.constant;
-    }
-    leadingCo(){
-        return this.mono(0).co();
-    }
-
-    static parse(expression){
+    parsePolynomial(expression){
         if(!expression) return false;
         let exp = expression.replace(/\s/g,''); // trim all whitespace
-        let monoExpressions = exp.split(Polynomial.pattern); // split into monomial expressions on + or -
+        let monoExpressions = exp.split(Parser.polynomialPattern); // split into monomial expressions on + or -
         if(monoExpressions.length === 0 ) return false;
 
         /* parse the monomial expressions */
         let monomials = [];
         for (let i = 0; i < monoExpressions.length-1; i++) {
             let monoExp = monoExpressions[i];
-            let mono = Monomial.parse(monoExp);
+            let mono = this.parseMonomial(monoExp);
             if(mono === false) return false;
             monomials.push(mono);
         }
@@ -50,13 +53,13 @@ module.exports = class Polynomial {
         poly.constant = constant;
 
         /* do some validation */
-        if(!Polynomial.validateDegOrder(poly)) return false;
+        if(!this.validateDegOrder(poly)) return false;
 
         return poly;
     }
 
-    static validateDegOrder(polynomial){
-        let last = 99999999;
+    validateDegOrder(polynomial){
+        let last = 9999999999;
         for (let i = 0; i < polynomial.monomials.length; i++) {
             let m = polynomial.monomials[i];
             if(m.deg() > last){

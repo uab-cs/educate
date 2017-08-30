@@ -4,8 +4,7 @@ angular.module("app")
         require: 'ngModel',
         link: function(scope, element, attr, mCtrl) {
             mCtrl.$validators.poly = function(modelValue, viewValue) {
-                let res = polyService.parse(viewValue);
-                console.info("parsed: ", res);
+                let res = polyService.parsePolynomial(viewValue);
                 return res;
             };
         }

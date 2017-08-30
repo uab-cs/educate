@@ -6,6 +6,7 @@ let app = angular.module("app", ['ngJaxBind']);
 
 app.controller("AppController", AppController);
 
+AppController.$inject = ['$scope'];
 function AppController($scope){
     /* data model */
     $scope.expression = "$$ 4x^3 - 10y^2 + 13z + 25 $$";

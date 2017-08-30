@@ -2,7 +2,9 @@
   "name": "p-roots",
   "version": "1.0.0",
   "description": "Education software that factors polynomial expressions of arbitrary length and provides a step-by-step breakdown",
-  "scripts": {},
+  "scripts": {
+    "test": "cd tests && jasmine"
+  },
   "keywords": [
     "factor",
     "polynomials"
@@ -13,5 +15,9 @@
     "angular": "^1.6.6",
     "mathjax": "^2.7.2",
     "sweetalert2": "^6.6.9"
+  },
+  "devDependencies": {
+    "jasmine": "^2.8.0",
+    "webpack": "^3.5.5"
   }
 }

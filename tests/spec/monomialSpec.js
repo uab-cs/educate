@@ -1,4 +1,4 @@
-const Monomial = require("../../app/Monomial");
+const Monomial = require("../../es/src/Monomial");
 
 describe("Monomial Test", function(){
     it("Should parse a simple monomial", function(){

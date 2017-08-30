@@ -24,9 +24,11 @@ module.exports = class Polynomial {
     }
 
     static parse(expression){
-        let exp = expression.replace(/\s/g,'');
-        let monoExpressions = exp.split(Polynomial.pattern);
+        let exp = expression.replace(/\s/g,''); // trim all whitespace
+        let monoExpressions = exp.split(Polynomial.pattern); // split into monomial expressions on + or -
         if(monoExpressions.length === 0 ) return false;
+
+        /* parse the monomial expressions */
         let monomials = [];
         for (let i = 0; i < monoExpressions.length-1; i++) {
             let monoExp = monoExpressions[i];
@@ -35,10 +37,15 @@ module.exports = class Polynomial {
             monomials.push(mono);
         }
         if(monomials.length === 0) return false;
+
+        /* extract the constant term */
+        let lastToken = monoExpressions[monoExpressions.length-1];
+        if(!lastToken.match(/^[+-]\d+$/)) return false;
+        let constant = parseInt(lastToken);
+
+        /* construct the polynomial object */
         let poly = new Polynomial();
         poly.monomials = monomials;
-        let constant = parseInt(monoExpressions[monoExpressions.length-1]);
-        if(!constant) return false;
         poly.constant = constant;
         return poly;
     }

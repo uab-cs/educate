@@ -1,4 +1,4 @@
-const Monomial = require("../../app/Monomial");
+const Monomial = require("../../es/src/Monomial");
 
 describe("Regex Test", function() {
 

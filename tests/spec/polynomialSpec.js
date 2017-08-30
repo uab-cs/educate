@@ -1,9 +1,9 @@
-const Polynomial = require("../../app/Polynomial");
+const Polynomial = require("../../es/src/Polynomial");
 
 describe("Polynomial Test", function(){
     it("Should fail gracefully on garbage input", function(){
-        let result = Polynomial.parse(" boob * boob = boob^2 ");
-        expect(result).toEqual(false);
+        expect(Polynomial.parse(" boob * boob = boob^2 ")).toEqual(false);
+        expect(Polynomial.parse("30x^5 - 166x^4")).toEqual(false);
     });
 
     it("Should parse huge crazy polynomials", function(){

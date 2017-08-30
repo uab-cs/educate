@@ -145,9 +145,12 @@
 									<h3>You Entered:</h3>
 									<span mathjax-bind="expression"></span>
 								</div>
-								<div class="heading-block title-center">
+								<div ng-hide="noZeros" class="heading-block title-center">
 									<h3>Result:</h3>
 									<span mathjax-bind="'$$'+result+'$$'"></span>
+								</div>
+								<div ng-show="noZeros" class="heading-block title-center">
+									<h3 style="color: red">No Zeros Found!</h3>
 								</div>
 							</div>
 
@@ -156,7 +159,8 @@
 									<h3>Step By Step Breakdown</h3>
 								</div>
 
-								<p>Factoring polynomials gets pretty hard past 3 terms. We must resort to more complex techniques like ___ and synthetic division.</p>
+								<h5>Factoring polynomials gets pretty hard when you have arbitrary degrees! </h5>
+								<p>We must resort to more complex techniques like rational zero theorem, Gaussian elimination, and synthetic division.</p>
 
 								<div class="accordion accordion-bg clearfix">
 
@@ -164,9 +168,10 @@
 										<i class="acc-closed icon-ok-circle"></i>
 										<i class="acc-open icon-remove-circle"></i>
 										Step One: Potential Zeros
+										<a href onclick="window.location='http://sites.csn.edu/istewart/Math126/zeros_theorem/zeros_theorem.htm';" class="pull-right padlr">Learn More</a>
 									</div>
 									<div class="acc_content clearfix">
-										<h5>First we use some math voodoo to generate this list of <em>potential</em> zeros</h5>
+										<h5>First we use some voodoo math to generate this list of <em>potential</em> zeros</h5>
 										<div class="row">
 											<div ng-repeat="zero in potentialZeros" class="col-sm-3">
 												<p>{{solverService.fractionToString(zero)}}</p>
@@ -178,21 +183,24 @@
 										<i class="acc-closed icon-ok-circle"></i>
 										<i class="acc-open icon-remove-circle"></i>
 										Step Two: Check for Rational Zeros
+										<a href onclick="window.location='http://sites.csn.edu/istewart/Math126/zeros_theorem/zeros_theorem.htm';" class="pull-right padlr">Learn More</a>
 									</div>
 									<div class="acc_content clearfix">
-										<h5>When we evaluate every one of our potential zeros, only these proved to be <em>actual</em> zeros</h5>
+										<h5 ng-hide="noZeros">When we evaluate every one of our potential zeros, only these proved to be <em>actual</em> zeros</h5>
+										<h5 ng-show="noZeros" style="color: red">When we evaluate every one of our potential zeros, NONE of them proved to be <em>actual</em> zeros</h5>
 										<div class="row">
 											<div ng-repeat="zero in rationalZeros" class="col-sm-3">
 												<p>{{solverService.fractionToString(zero)}}</p>
 											</div>
 										</div>
 									</div>
-									<div class="acctitle">
+									<div class="acctitle" ng-hide="noZeros">
 										<i class="acc-closed icon-ok-circle"></i>
 										<i class="acc-open icon-remove-circle"></i>
 										Step Three: Finding Linear Factors
+										<a href onclick="window.location='http://sites.csn.edu/istewart/Math126/zeros_theorem/zeros_theorem.htm';" class="pull-right padlr">Learn More</a>
 									</div>
-									<div class="acc_content clearfix">
+									<div class="acc_content clearfix" ng-hide="noZeros">
 										<h5>Please remember that "linear factors" are of the form ax + b, where a and b are constants and the variable has a power of 1.
 											We have learned earlier that if a number r is a Zero of the polynomial function, then  is a linear factor of the function.
 											Knowing this we can write any polynomial function as a product of linear factors by simply replacing the r in the linear factor,

@@ -12,3 +12,7 @@
 .spinner {
     max-height: 100%;
 }
+
+.padlr {
+    padding: 0 20px;
+}

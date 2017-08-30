@@ -86,7 +86,10 @@
 
 							<div class="center">
 								<h3 ng-hide="inputForm.exp.$error.poly" mathjax-bind="'$$'+expression+'$$'">loading...</h3>
-								<h3 ng-show="inputForm.exp.$error.poly" style="color:red">Invalid Input</h3>
+								<div ng-show="inputForm.exp.$error.poly">
+									<h3 style="color:red">Invalid Input</h3>
+									<h5><em><span ng-bind="polyService.opCode.msg"></span></em></h5>
+								</div>
 							</div>
 
 							<div class="center bottommargin">

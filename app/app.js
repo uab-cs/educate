@@ -35,6 +35,8 @@ function AppController($scope, polyService){
         /* trigger parsing for the example */
         parse($scope.expression);
         // end
+
+        $scope.polyService = polyService;
     }
 
     /*=====================================================*/

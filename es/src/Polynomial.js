@@ -34,6 +34,7 @@ module.exports = class Polynomial {
             if(mono === false) return false;
             monomials.push(mono);
         }
+        if(monomials.length === 0) return false;
         let poly = new Polynomial();
         poly.monomials = monomials;
         let constant = parseInt(monoExpressions[monoExpressions.length-1]);

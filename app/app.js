@@ -40,7 +40,6 @@ function AppController($scope){
             $scope.loading = false;
             $scope.$apply();
         }, 2000);
-        // swal("Coming Soon!", "This page is under development", "info");
     }
 
     function handleTryAgain(){

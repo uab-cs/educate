@@ -18,13 +18,14 @@ module.exports = class Parser {
         // interpret captures and set defaults
         let sign = result[1] || "+";
         let coefficient = result[2] || 1;
-        let variable = result[3];
+        let symbol = result[3];
         let degree = result[4] || 1;
         if (sign === "-") coefficient *= -1;
         // construct monomial
         let m = new Monomial();
         m.coefficient = parseInt(coefficient);
         m.degree = parseInt(degree);
+        m.symbol = symbol;
         return m;
     }
 
@@ -56,6 +57,7 @@ module.exports = class Parser {
 
         /* do some validation */
         if (!this.validateDegOrder(poly)) return this.fail("Bad order of degrees. Should be descending");
+        if (!this.validateSymbols(poly)) return this.fail("Variables should be the same");
 
         return poly;
     }
@@ -68,6 +70,17 @@ module.exports = class Parser {
                 return false;
             }
             last = m.deg();
+        }
+        return true;
+    }
+
+    validateSymbols(polynomial){
+        let symbol = polynomial.mono(0).sym();
+        for (let i = 0; i < polynomial.monomials.length; i++) {
+            let m = polynomial.monomials[i];
+            if (m.sym() !== symbol) {
+                return false;
+            }
         }
         return true;
     }

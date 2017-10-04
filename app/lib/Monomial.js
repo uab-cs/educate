@@ -1,4 +1,4 @@
-module.exports = class Monomial {
+class Monomial {
 
     constructor(){
         this.coefficient = null;

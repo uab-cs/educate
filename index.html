@@ -7,19 +7,19 @@
 
 	<!-- Stylesheets
 	============================================= -->
-	<link rel="icon" href="images/favicon.png" sizes="32x32" type="image/png">
+	<link rel="icon" href="assets/images/favicon.png" sizes="32x32" type="image/png">
 	<link href="http://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700|Crete+Round:400italic" rel="stylesheet" type="text/css" />
-	<link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
-	<link rel="stylesheet" href="style.css" type="text/css" />
-	<link rel="stylesheet" href="css/dark.css" type="text/css" />
-	<link rel="stylesheet" href="css/font-icons.css" type="text/css" />
-	<link rel="stylesheet" href="css/animate.css" type="text/css" />
-	<link rel="stylesheet" href="css/magnific-popup.css" type="text/css" />
+	<link rel="stylesheet" href="assets/css/bootstrap.css" type="text/css" />
+	<link rel="stylesheet" href="assets/css/style.css" type="text/css" />
+	<link rel="stylesheet" href="assets/css/dark.css" type="text/css" />
+	<link rel="stylesheet" href="assets/css/font-icons.css" type="text/css" />
+	<link rel="stylesheet" href="assets/css/animate.css" type="text/css" />
+	<link rel="stylesheet" href="assets/css/magnific-popup.css" type="text/css" />
 
-	<link rel="stylesheet" href="css/responsive.css" type="text/css" />
+	<link rel="stylesheet" href="assets/css/responsive.css" type="text/css" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-	<link rel="stylesheet" href="css/custom.css">
+	<link rel="stylesheet" href="assets/css/custom.css">
 
 	<!-- Document Title
 	============================================= -->
@@ -32,8 +32,6 @@
 
 	<!-- Javascripts
 	============================================= -->
-	<!-- es6 classes -->
-	<script src="es/dist/bundle.js"></script>
 	<!-- mathjax -->
 	<script src="node_modules/mathjax/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 	<script src="node_modules/mathjs/dist/math.min.js"></script>
@@ -41,6 +39,8 @@
 	<script src="node_modules/angular/angular.min.js"></script>
 	<script src="vendor/ng-mathjax/ng-mathjax.js"></script>
 	<script src="app/app.js"></script>
+	<script src="app/lib/Monomial.js"></script>
+	<script src="app/lib/Polynomial.js"></script>
 	<script src="app/validators/polynomial.directive.js"></script>
 	<script src="app/polynomial/poly.service.js"></script>
 	<script src="app/polynomial/solver.service.js"></script>
@@ -67,7 +67,7 @@
 				<div ng-show="result===false" class="container clearfix">
 
 					<div class="center bottommargin" style="width: 150px; margin:auto">
-						<img src="images/J-William-Cupp.png" style="width: 100%" />
+						<img src="assets/images/J-William-Cupp.png" style="width: 100%" />
 					</div>
 
 					<div id="section-home" class="heading-block title-center nobottomborder page-section">
@@ -96,7 +96,7 @@
 
 							<div class="center bottommargin">
 								<button ng-click="handleGo()" ng-hide="inputForm.exp.$error.poly" class="button button-3d">
-									<img ng-show="loading" src="images/wedges.gif" class="spinner" alt="loading...">
+									<img ng-show="loading" src="assets/images/wedges.gif" class="spinner" alt="loading...">
 									<b ng-hide="loading">Go!</b>
 								</button>
 							</div>
@@ -235,12 +235,12 @@
 
 	<!-- External JavaScripts
 	============================================= -->
-	<script type="text/javascript" src="js/jquery.js"></script>
-	<script type="text/javascript" src="js/plugins.js"></script>
+	<script type="text/javascript" src="assets/js/jquery.js"></script>
+	<script type="text/javascript" src="assets/js/plugins.js"></script>
 
 	<!-- Footer Scripts
 	============================================= -->
-	<script type="text/javascript" src="js/functions.js"></script>
+	<script type="text/javascript" src="assets/js/functions.js"></script>
 
 </body>
 </html>

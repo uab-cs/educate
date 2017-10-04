@@ -1,4 +1,4 @@
-module.exports = class Polynomial {
+class Polynomial {
     constructor(){
         this.monomials = [];
         this.constant = null;
@@ -20,4 +20,4 @@ module.exports = class Polynomial {
     sym(){
         return this.symbol;
     }
-};
+}

@@ -35,15 +35,14 @@
 	<!-- mathjax -->
 	<script src="node_modules/mathjax/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 	<script src="node_modules/mathjs/dist/math.min.js"></script>
+	<!-- plotter -->
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+	<script src="node_modules/function-plot/dist/function-plot.js"></script>
 	<!-- angular app -->
 	<script src="node_modules/angular/angular.min.js"></script>
 	<script src="vendor/ng-mathjax/ng-mathjax.js"></script>
 	<script src="app/app.js"></script>
-	<script src="app/lib/Monomial.js"></script>
-	<script src="app/lib/Polynomial.js"></script>
 	<script src="app/validators/polynomial.directive.js"></script>
-	<script src="app/polynomial/poly.service.js"></script>
-	<script src="app/polynomial/solver.service.js"></script>
 
 </head>
 
@@ -55,7 +54,54 @@
 
 		<!-- Header
 		============================================= -->
-		<!-- TODO: add a header? maybe? -->
+		<header id="header" class="full-header">
+
+			<div id="header-wrap">
+
+				<div class="container clearfix">
+
+					<div id="primary-menu-trigger"><i class="icon-reorder"></i></div>
+
+					<!-- Logo
+					============================================= -->
+					<div id="logo">
+						<a href="index.html" class="standard-logo" data-dark-logo="images/logo-dark.png">
+							<img src="assets/images/uab.png" alt="UAB Logo"></a>
+					</div><!-- #logo end -->
+
+					<!-- Primary Navigation
+					============================================= -->
+					<nav id="primary-menu" class="style-5">
+
+						<ul>
+							<li><a href="index.html"><div><i class="icon-calculator"></i>Home</div></a></li>
+							<li><a href="#"><div><i class="icon-code"></i>Open Source</div></a>
+								<ul>
+									<li><a href="https://github.com/uab-cs"><div>GitHub</div></a></li>
+									<li><a href="https://github.com/uab-cs"><div>Polynomial Library</div></a></li>
+									<li><a href="https://github.com/uab-cs"><div>Front-End</div></a></li>
+									<li><a href="https://github.com/uab-cs"><div>Other Libraries</div></a>
+										<ul>
+											<li><a href="https://mathjs.org"><div>MathJS</div></a></li>
+											<li><a href="https://github.com/mauriciopoppe/function-plot"><div>Function Plot</div></a></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li><a href="#"><div><i class="icon-briefcase"></i>Other Works</div></a>
+								<ul>
+									<li><a href="https://github.com/chrisrocco"><div>Chris Rocco</div></a></li>
+								</ul>
+							</li>
+						</ul>
+
+					</nav><!-- #primary-menu end -->
+
+				</div>
+
+			</div>
+
+		</header>
 		<!-- #header end -->
 
 		<!-- Content
@@ -64,13 +110,9 @@
 
 			<div class="content-wrap">
 
-				<div ng-show="result===false" class="container clearfix">
+				<div class="container clearfix">
 
-					<div class="center bottommargin" style="width: 150px; margin:auto">
-						<img src="assets/images/J-William-Cupp.png" style="width: 100%" />
-					</div>
-
-					<div id="section-home" class="heading-block title-center nobottomborder page-section">
+					<div class="heading-block title-center nobottomborder page-section">
 						<h1>Factor N<sup>th</sup> Degree Polynomials</h1>
 						<span>Enter your expression below, and click go!</span>
 					</div>
@@ -79,140 +121,59 @@
 						<div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2">
 
 							<div class="center">
-								<form name="inputForm">
-									<input class="sm-form-control center" ng-model="expression" name="exp" polynomial
-										   ng-change="parse(expression)"
-										   ng-class="{ 'has-error' : inputForm.exp.$error.poly }"/>
+								<form name="inputForm" ng-submit="go()">
+									<div class="input-group">
+										<input class="form-control center" ng-model="expression" name="exp" polynomial
+											   ng-change="parse(expression)"
+											   ng-class="{ 'has-error' : inputForm.exp.$error.poly }"/>
+										<span class="input-group-btn">
+											<button type="submit" ng-hide="inputForm.exp.$error.poly" class="btn btn-primary">
+												<img ng-show="loading" src="assets/images/wedges.gif" class="spinner" alt="loading...">
+												<b ng-hide="loading">Factor</b>
+											</button>
+										</span>
+									</div>
 								</form>
 							</div>
 
 							<div class="center">
-								<h3 ng-hide="inputForm.exp.$error.poly" mathjax-bind="'$$'+expression+'$$'">loading...</h3>
 								<div ng-show="inputForm.exp.$error.poly">
 									<h3 style="color:red">Invalid Input</h3>
 									<h5><em><span ng-bind="polyService.opCode.msg"></span></em></h5>
 								</div>
 							</div>
 
-							<div class="center bottommargin">
-								<button ng-click="handleGo()" ng-hide="inputForm.exp.$error.poly" class="button button-3d">
-									<img ng-show="loading" src="assets/images/wedges.gif" class="spinner" alt="loading...">
-									<b ng-hide="loading">Go!</b>
-								</button>
-							</div>
-
-							<div id="parse-output" ng-hide="inputForm.exp.$error.poly">
-								<div class="fancy-title title-dotted-border title-center">
-									<h3>PARSING RESULTS</h3>
-								</div>
-
-								<div class="table-responsive">
-									<table class="table table-striped table-bordered center">
-										<thead>
-										<tr>
-											<th>Term #</th>
-											<th>Co-efficient</th>
-											<th>Degree</th>
-										</tr>
-										</thead>
-										<tbody>
-										<tr ng-repeat="mono in polynomial.monomials">
-											<td>{{$index + 1}}</td>
-											<td>{{mono.co()}}</td>
-											<td>{{mono.deg()}}</td>
-										</tr>
-										</tbody>
-									</table>
-								</div>
-
-								<div class="center">
-									<h4>CONSTANT: <span>{{polynomial.cons()}}</span></h4>
-								</div>
-							</div>
-
 						</div>
 					</div>
-
-				</div>
-
-				<div ng-hide="result===false" class="container clearfix">
 
 					<div class="row">
 						<div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2">
 
-							<div>
-								<div class="heading-block title-center">
-									<h3>You Entered:</h3>
-									<span mathjax-bind="expression"></span>
+							<div class="col_full panel panel-default bottommargin-sm">
+								<div class="panel-heading">
+									<h2 class="panel-title">Input: </h2>
 								</div>
-								<div ng-hide="noZeros" class="heading-block title-center">
-									<h3>Result:</h3>
-									<span mathjax-bind="'$$'+result+'$$'"></span>
-								</div>
-								<div ng-show="noZeros" class="heading-block title-center">
-									<h3 style="color: red">No Zeros Found!</h3>
+								<div class="panel-body center">
+									<span style="font-size: 17px" mathjax-bind="'$$'+expression+'$$'"></span>
 								</div>
 							</div>
-
-							<div>
-								<div class="fancy-title title-bottom-border">
-									<h3>Step By Step Breakdown</h3>
+							<div class="col_full panel panel-default bottommargin-sm">
+								<div class="panel-heading">
+									<h2 class="panel-title">Results: </h2>
 								</div>
-
-								<h5>Factoring polynomials gets pretty hard when you have arbitrary degrees! </h5>
-								<p>We must resort to more complex techniques like rational zero theorem, Gaussian elimination, and synthetic division.</p>
-
-								<div class="accordion accordion-bg clearfix">
-
-									<div class="acctitle">
-										<i class="acc-closed icon-ok-circle"></i>
-										<i class="acc-open icon-remove-circle"></i>
-										Step One: Potential Zeros
-										<a href onclick="window.location='http://sites.csn.edu/istewart/Math126/zeros_theorem/zeros_theorem.htm';" class="pull-right padlr">Learn More</a>
-									</div>
-									<div class="acc_content clearfix">
-										<h5>First we use some voodoo math to generate this list of <em>potential</em> zeros</h5>
-										<div class="row">
-											<div ng-repeat="zero in potentialZeros" class="col-sm-3">
-												<p>{{solverService.fractionToString(zero)}}</p>
-											</div>
-										</div>
-									</div>
-
-									<div class="acctitle">
-										<i class="acc-closed icon-ok-circle"></i>
-										<i class="acc-open icon-remove-circle"></i>
-										Step Two: Check for Rational Zeros
-										<a href onclick="window.location='http://sites.csn.edu/istewart/Math126/zeros_theorem/zeros_theorem.htm';" class="pull-right padlr">Learn More</a>
-									</div>
-									<div class="acc_content clearfix">
-										<h5 ng-hide="noZeros">When we evaluate every one of our potential zeros, only these proved to be <em>actual</em> zeros</h5>
-										<h5 ng-show="noZeros" style="color: red">When we evaluate every one of our potential zeros, NONE of them proved to be <em>actual</em> zeros</h5>
-										<div class="row">
-											<div ng-repeat="zero in rationalZeros" class="col-sm-3">
-												<p>{{solverService.fractionToString(zero)}}</p>
-											</div>
-										</div>
-									</div>
-									<div class="acctitle" ng-hide="noZeros">
-										<i class="acc-closed icon-ok-circle"></i>
-										<i class="acc-open icon-remove-circle"></i>
-										Step Three: Finding Linear Factors
-										<a href onclick="window.location='http://sites.csn.edu/istewart/Math126/zeros_theorem/zeros_theorem.htm';" class="pull-right padlr">Learn More</a>
-									</div>
-									<div class="acc_content clearfix" ng-hide="noZeros">
-										<h5>Please remember that "linear factors" are of the form ax + b, where a and b are constants and the variable has a power of 1.
-											We have learned earlier that if a number r is a Zero of the polynomial function, then  is a linear factor of the function.
-											Knowing this we can write any polynomial function as a product of linear factors by simply replacing the r in the linear factor,
-											in turn, with every Zero and then connecting all of the linear factors with multiplication.</h5>
-										<h4 mathjax-bind="'$$'+result+'$$'"></h4>
-									</div>
-
+								<div class="panel-body center">
+									<h3 class="nobottommargin" style="color: red">No Zeros Found!</h3>
 								</div>
+							</div>
+							<div class="col_full panel panel-default bottommargin-sm">
+								<div class="panel-heading">
+									<h2 class="panel-title">Graph: </h2>
+								</div>
+								<div class="panel-body center">
+									<div id="graph">
 
-								<a ng-click="handleTryAgain()" class="button button-3d button-black nomargin pull-right">
-									Try Again
-								</a>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -244,3 +205,70 @@
 
 </body>
 </html>
+
+
+<!--
+
+<div>
+	<div class="fancy-title title-bottom-border">
+		<h3>Step By Step Breakdown</h3>
+	</div>
+
+	<h5>Factoring polynomials gets pretty hard when you have arbitrary degrees! </h5>
+	<p>We must resort to more complex techniques like rational zero theorem, Gaussian elimination, and synthetic division.</p>
+
+	<div class="accordion accordion-bg clearfix">
+
+		<div class="acctitle">
+			<i class="acc-closed icon-ok-circle"></i>
+			<i class="acc-open icon-remove-circle"></i>
+			Step One: Potential Zeros
+			<a href onclick="window.location='http://sites.csn.edu/istewart/Math126/zeros_theorem/zeros_theorem.htm';" class="pull-right padlr">Learn More</a>
+		</div>
+		<div class="acc_content clearfix">
+			<h5>First we use some voodoo math to generate this list of <em>potential</em> zeros</h5>
+			<div class="row">
+				<div ng-repeat="zero in potentialZeros" class="col-sm-3">
+					<p>{{solverService.fractionToString(zero)}}</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="acctitle">
+			<i class="acc-closed icon-ok-circle"></i>
+			<i class="acc-open icon-remove-circle"></i>
+			Step Two: Check for Rational Zeros
+			<a href onclick="window.location='http://sites.csn.edu/istewart/Math126/zeros_theorem/zeros_theorem.htm';" class="pull-right padlr">Learn More</a>
+		</div>
+		<div class="acc_content clearfix">
+			<h5 ng-hide="noZeros">When we evaluate every one of our potential zeros, only these proved to be <em>actual</em> zeros</h5>
+			<h5 ng-show="noZeros" style="color: red">When we evaluate every one of our potential zeros, NONE of them proved to be <em>actual</em> zeros</h5>
+			<div class="row">
+				<div ng-repeat="zero in rationalZeros" class="col-sm-3">
+					<p>{{solverService.fractionToString(zero)}}</p>
+				</div>
+			</div>
+		</div>
+		<div class="acctitle" ng-hide="noZeros">
+			<i class="acc-closed icon-ok-circle"></i>
+			<i class="acc-open icon-remove-circle"></i>
+			Step Three: Finding Linear Factors
+			<a href onclick="window.location='http://sites.csn.edu/istewart/Math126/zeros_theorem/zeros_theorem.htm';" class="pull-right padlr">Learn More</a>
+		</div>
+		<div class="acc_content clearfix" ng-hide="noZeros">
+			<h5>Please remember that "linear factors" are of the form ax + b, where a and b are constants and the variable has a power of 1.
+				We have learned earlier that if a number r is a Zero of the polynomial function, then  is a linear factor of the function.
+				Knowing this we can write any polynomial function as a product of linear factors by simply replacing the r in the linear factor,
+				in turn, with every Zero and then connecting all of the linear factors with multiplication.</h5>
+			<h4 mathjax-bind="'$$'+result+'$$'"></h4>
+		</div>
+
+	</div>
+
+	<a ng-click="handleTryAgain()" class="button button-3d button-black nomargin pull-right">
+		Try Again
+	</a>
+</div>
+
+
+-->

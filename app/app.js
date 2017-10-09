@@ -19,6 +19,25 @@ app.controller("AppController", function($scope){
                 processEscapes: true
             }
         });
+
+        $scope.$watch("expression", function(){
+            renderFunction($scope.expression, "#graph")
+        });
+    }
+
+    $scope.go = function(){
+        swal("Coming Soon!");
+    };
+
+    function renderFunction(expression, selector){
+        functionPlot({
+            target: selector,
+            data: [{
+                fn: expression,
+                sampler: 'builtIn',  // this will make function-plot use the evaluator of math.js
+                graphType: 'polyline'
+            }]
+        });
     }
 
     init();

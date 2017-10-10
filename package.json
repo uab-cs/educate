@@ -1,5 +1,5 @@
 {
-  "name": "uabcs/educate",
+  "name": "uabcs-educate",
   "version": "1.0.1",
   "description": "Education software that factors polynomial expressions of arbitrary length and provides a step-by-step breakdown",
   "scripts": {},
@@ -14,6 +14,7 @@
     "function-plot": "^1.18.1",
     "mathjax": "^2.7.2",
     "mathjs": "^3.16.3",
+    "polymath": "^1.0.1",
     "sweetalert2": "^6.6.9"
   }
 }

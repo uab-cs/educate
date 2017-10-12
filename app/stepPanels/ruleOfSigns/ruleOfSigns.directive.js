@@ -12,4 +12,4 @@ angular.module("app")
             controllerAs: "signsCtrl",
             templateUrl: "app/stepPanels/ruleOfSigns/ruleOfSigns.html"
         }
-    });git 
+    });

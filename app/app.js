@@ -8,6 +8,10 @@ app.controller("AppController", function($scope){
     $scope.expression = "12x^3-41x^2-38x+40";
     // $scope.expression = "15x^3 + 14x^2 - 3x - 2";
     $scope.result = false;
+    $scope.renderMap = {
+        "steps": false,
+        "graph": true
+    };
 
     /* constructor */
     function init(){
@@ -34,11 +38,20 @@ app.controller("AppController", function($scope){
         console.log(polynomial);
         console.log(signs);
         console.log(zeros);
+        var steps = [];
+        steps.push({
+            type: "signs",
+            data: signs,
+            polynomial: polynomial
+        });
+        $scope.steps = steps;
         renderZeros(zeros.actual_zeros);
     };
 
     $scope.showSteps = function(){
         swal("Coming Soon!");
+        $scope.renderMap.steps = true;
+        $scope.renderMap.graph = false;
     };
 
     function renderZeros(zeros){
@@ -59,6 +72,8 @@ app.controller("AppController", function($scope){
         var den = root.d;
         var r = "\\frac{"+num+"}{"+den+"}";
         if(num === den)
+            r = num;
+        if(den === 1)
             r = num;
         var sign = "+";
         if(root < 0)

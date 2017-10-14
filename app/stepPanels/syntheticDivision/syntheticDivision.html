@@ -1,43 +1,5 @@
-<!--<div class="col_full panel panel-default bottommargin-sm">
-    <div class="panel-heading">
-        <div class="row">
-            <div class="col-md-6">
-                <h2 class="panel-title">Synthetic Division</h2>
-            </div>
-            <div class="col-md-6">
-                <a class="pull-right" href="#">Learn More!</a>
-            </div>
-        </div>
-    </div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-md-6">
-                <span mathjax-bind="'$$\\frac{'+input.toLatex()+'}{'+rootLatex+'}$$'"></span>
-            </div>
-            <div class="col-md-6">
-                <table class="table">
-                    <tbody>
-                        <tr>
-                            <td ng-repeat="n in top">{{n}}</td>
-                        </tr>
-                        <tr>
-                            <td ng-repeat="n in middle">{{n}}</td>
-                        </tr>
-                        <tr>
-                            <td ng-repeat="n in bottom">{{n}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-md-5 col-md-offset-7">
-                <span mathjax-bind="'$$ = '+result.toLatex()+'$$'"></span>
-            </div>
-        </div>
-    </div>
-</div>-->
-
 <div class="toggle toggle-border toggle-bg">
-    <div class="togglet"><i class="toggle-closed icon-ok-circle"></i><i class="toggle-open icon-remove-circle"></i>Synthetic Division</div>
+    <div class="togglet"><i class="toggle-closed icon-plus-sign2"></i><i class="toggle-open icon-remove-circle"></i>Synthetic Division</div>
     <div class="togglec topmargin-sm">
         <div class="row">
             <div class="col-md-6">
@@ -47,13 +9,13 @@
                 <table class="table">
                     <tbody>
                     <tr>
-                        <td ng-repeat="n in top">{{n}}</td>
+                        <td ng-repeat="n in top track by $index">{{n}}</td>
                     </tr>
                     <tr>
-                        <td ng-repeat="n in middle">{{n}}</td>
+                        <td ng-repeat="n in middle track by $index">{{n}}</td>
                     </tr>
                     <tr>
-                        <td ng-repeat="n in bottom">{{n}}</td>
+                        <td ng-repeat="n in bottom track by $index">{{n}}</td>
                     </tr>
                     </tbody>
                 </table>

@@ -18,7 +18,7 @@ app.controller("AppController", function($scope){
     $scope.examples = [
         "12x^3 - 41x^2 - 38x + 40",
         "x^4 - 7x^3 + 17x^2 - 17x + 6",
-        "15x^3 + 14x^2 - 3x - 2"
+        "15x^3 + 14x^2 - 3x - 2",
     ];
     $scope.expression = $scope.examples[0];
 
@@ -95,6 +95,7 @@ app.controller("AppController", function($scope){
 
     $scope.show = show;
     $scope.hide = hide;
+    $scope.is = is;
     function show(item){
         for (var i = 0; i < arguments.length; i++) {
             $scope.renderMap[arguments[i]] = true;
@@ -104,6 +105,13 @@ app.controller("AppController", function($scope){
         for (var i = 0; i < arguments.length; i++) {
             $scope.renderMap[arguments[i]] = false;
         }
+    }
+    function is(item){
+        for(var i = 0; i < arguments.length; i++){
+            if($scope.renderMap[arguments[i]] === false)
+                return false;
+        }
+        return true;
     }
 
     init();

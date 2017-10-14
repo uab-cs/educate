@@ -154,7 +154,7 @@
 					</div>
 					<div class="row">
 						<div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2">
-							<div ng-show="renderMap.examples" class="col_full">
+							<div ng-show="is('examples')" class="col_full">
 								<div class="fancy-title title-bottom-border">
 									<h5>Examples</h5>
 								</div>
@@ -170,7 +170,7 @@
 									</a>
 								</div>
 							</div>
-							<div ng-show="renderMap.input" class="col_full panel panel-primary bottommargin-sm">
+							<div ng-show="is('input')" class="col_full panel panel-primary bottommargin-sm">
 								<div class="panel-heading">
 									<h2 class="panel-title">Input: </h2>
 								</div>
@@ -178,23 +178,55 @@
 									<span style="font-size: 17px" mathjax-bind="'$$'+expression+'$$'"></span>
 								</div>
 							</div>
-							<div ng-show="renderMap.result" class="col_full panel panel-success bottommargin-sm">
+							<div ng-show="is('result')" class="col_full panel panel-success bottommargin-sm">
 								<div class="panel-heading">
 									<div class="row">
 										<div class="col-md-6">
 											<h2 class="panel-title">Results: </h2>
 										</div>
 										<div class="col-md-6">
-											<a class="pull-right" ng-click="show('steps'); hide('graph');" ng-show="result" href>View Step-by-Step Solution!</a>
+											<a class="pull-right" href>
+												<!-- Top Right Links -->
+											</a>
 										</div>
 									</div>
 								</div>
-								<div class="panel-body center">
+								<div class="panel-body">
 									<span ng-show="result" style="font-size: 17px" mathjax-bind="'$$'+result+'$$'"></span>
 									<h3 ng-hide="result" class="nobottommargin" style="color: red">No Zeros Found!</h3>
+									<div class="toggle toggle-border toggle-bg">
+										<div class="togglet"><i class="toggle-closed icon-arrow-right"></i><i class="toggle-open icon-remove-circle"></i>
+											Step-by-Step Breakdown
+										</div>
+										<div class="togglec topmargin-sm">
+											<div ng-repeat="step in steps">
+												<rule-of-signs ng-if="step.module === 'descarte'"
+															   max-positive="step.data.max_positive"
+															   max-negative="step.data.max_negative"
+															   poly-latex="expression"></rule-of-signs>
+												<synthetic-division ng-if="step.module === 'synthetic_division'"
+																	input="step.data.input"
+																	top="step.data.top"
+																	middle="step.data.middle"
+																	bottom="step.data.bottom"
+																	input="step.data.input"
+																	root="step.data.root"
+																	result="step.data.polynomial"></synthetic-division>
+												<rational-zeros ng-if="step.module === 'zeros'"
+																potential="step.data.potential_zeros"
+																actual="step.data.actual_zeros"></rational-zeros>
+												<!--<quadratic-equation ng-if="step.module === 'quadratic_equation'"></quadratic-equation>-->
+											</div>
+											<div class="row">
+												<div class="col-md-6 col-md-offset-6 pull-right">
+													<span mathjax-bind="'$$ = '+result+'$$'"></span>
+												</div>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
-							<div ng-show="renderMap.graph" class="col_full panel panel-default bottommargin-sm">
+							<div ng-show="is('graph')" class="col_full panel panel-primary bottommargin-sm">
 								<div class="panel-heading">
 									<h2 class="panel-title">Graph: </h2>
 								</div>
@@ -204,45 +236,8 @@
 									</div>
 								</div>
 							</div>
-							<div ng-show="renderMap.steps" class="col_full panel panel-success bottommargin-sm">
-								<div class="panel-heading">
-									<div class="row">
-										<div class="col-md-6">
-											<h2 class="panel-title">Step by Step Breakdown</h2>
-										</div>
-										<div class="col-md-6">
-											<a ng-click="show('graph'); hide('steps')" class="pull-right" href>Hide</a>
-										</div>
-									</div>
-								</div>
-								<div class="panel-body">
-									<div ng-repeat="step in steps">
-										<rule-of-signs ng-if="step.module === 'descarte'"
-													   max-positive="step.data.max_positive"
-													   max-negative="step.data.max_negative"
-													   poly-latex="expression"></rule-of-signs>
-										<synthetic-division ng-if="step.module === 'synthetic_division'"
-															input="step.data.input"
-															top="step.data.top"
-															middle="step.data.middle"
-															bottom="step.data.bottom"
-															input="step.data.input"
-															root="step.data.root"
-															result="step.data.polynomial"></synthetic-division>
-										<rational-zeros ng-if="step.module === 'zeros'"
-														potential="step.data.potential_zeros"
-														actual="step.data.actual_zeros"></rational-zeros>
-										<!--<quadratic-equation ng-if="step.module === 'quadratic_equation'"></quadratic-equation>-->
-									</div>
-									<div class="row">
-										<div class="col-md-6 col-md-offset-6 pull-right">
-											<span mathjax-bind="'$$ = '+result+'$$'"></span>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div ng-show="renderMap.retry" class="col_full text-right">
-								<button ng-click="show('examples', 'graph'); hide('result', 'retry', 'steps');" class="button button-dirtygreen">Try Again</button>
+							<div ng-show="is('retry')" class="col_full text-right">
+								<button ng-click="show('examples', 'graph'); hide('result', 'retry');" class="button button-dirtygreen">Try Again</button>
 							</div>
 						</div>
 					</div>

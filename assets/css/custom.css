@@ -16,3 +16,15 @@
 .padlr {
     padding: 0 20px;
 }
+
+#header {
+    background-color: #eae8e8;
+}
+
+#header.sticky-header #header-wrap {
+    background-color: #eae8e8;
+}
+
+#content {
+    background-color: #f6f4f4;
+}

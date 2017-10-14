@@ -4,12 +4,14 @@ angular.module("app")
             scope: {
                 maxPositive: "=",
                 maxNegative: "=",
-                polynomial: "="
+                polyLatex: "="
+            },
+            link: function($scope, $el){
+                initToggle($($el[0]).find(".toggle"));
             },
             controller: function($scope){
-                $scope.ready = "Yes!";
+                $scope.title = "Descarte's Rule of Signs";
             },
-            controllerAs: "signsCtrl",
             templateUrl: "app/stepPanels/ruleOfSigns/ruleOfSigns.html"
         }
     });

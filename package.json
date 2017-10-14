@@ -1,6 +1,7 @@
 {
   "name": "uabcs-educate",
   "version": "1.0.1",
+  "repository": "https://github.com/uab-cs/educate",
   "description": "Education software that factors polynomial expressions of arbitrary length and provides a step-by-step breakdown",
   "scripts": {
     "serve": "http-server"
@@ -16,7 +17,7 @@
     "function-plot": "^1.18.1",
     "mathjax": "^2.7.2",
     "mathjs": "^3.16.3",
-    "polymath": "^1.0.1",
+    "polymath": "^1.0.5",
     "sweetalert2": "^6.6.9"
   },
   "devDependencies": {

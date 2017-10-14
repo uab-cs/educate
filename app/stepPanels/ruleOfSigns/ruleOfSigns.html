@@ -1,4 +1,4 @@
-<div class="col_full panel panel-default bottommargin-sm">
+<!--<div class="col_full panel panel-default bottommargin-sm">
     <div class="panel-heading">
         <div class="row">
             <div class="col-md-6">
@@ -10,7 +10,25 @@
         </div>
     </div>
     <div class="panel-body center">
-        <p>[ Polynomial ]</p>
+        <p mathjax-bind="'$$'+polyLatex+'$$'"></p>
+        <p>
+            <b>Maximum Positive Zeros: </b>
+            {{maxPositive}}
+        </p>
+        <p>
+            <b>Maximum Negative Zeros: </b>
+            {{maxNegative}}
+        </p>
+    </div>
+</div>-->
+
+<div class="toggle toggle-border toggle-bg">
+    <div class="togglet">
+        <i class="toggle-closed icon-plus-sign"></i>
+        <i class="toggle-open icon-remove-circle"></i>
+        {{title}} </div>
+    <div class="togglec topmargin-sm">
+        <p mathjax-bind="'$$'+polyLatex+'$$'"></p>
         <p>
             <b>Maximum Positive Zeros: </b>
             {{maxPositive}}

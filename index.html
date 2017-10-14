@@ -46,6 +46,8 @@
 	<script src="app/app.js"></script>
 	<script src="app/validators/polynomial.directive.js"></script>
 	<script src="app/stepPanels/ruleOfSigns/ruleOfSigns.directive.js"></script>
+	<script src="app/stepPanels/syntheticDivision/syntheticDivision.directive.js"></script>
+	<script src="app/stepPanels/rationalZeros/rationalZeros.directive.js"></script>
 
 </head>
 
@@ -127,16 +129,16 @@
 
 							<div class="center">
 								<form name="inputForm" ng-submit="go(expression)">
-									<div class="input-group">
-										<input class="form-control center" ng-model="expression" name="exp" polynomial
-											   ng-change="parse(expression)"
-											   ng-class="{ 'has-error' : inputForm.exp.$error.poly }"/>
-										<span class="input-group-btn">
-											<button type="submit" ng-hide="inputForm.exp.$error.poly" class="btn btn-primary">
-												<img ng-show="loading" src="assets/images/wedges.gif" class="spinner" alt="loading...">
-												<b ng-hide="loading">Factor</b>
-											</button>
-										</span>
+									<div class="col_full">
+										<div class="col_three_fourth">
+											<input class="sm-form-control"
+												   ng-model="expression" poly-input
+												   ng-change="parse(expression)"
+												   ng-class="{ 'has-error' : inputForm.exp.$error.poly }"/>
+										</div>
+										<div class="col_one_fourth col_last">
+											<button class="button button-red nomargin"> Factor! </button>
+										</div>
 									</div>
 								</form>
 							</div>
@@ -150,11 +152,25 @@
 
 						</div>
 					</div>
-
 					<div class="row">
 						<div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2">
-
-							<div class="col_full panel panel-default bottommargin-sm">
+							<div ng-show="renderMap.examples" class="col_full">
+								<div class="fancy-title title-bottom-border">
+									<h5>Examples</h5>
+								</div>
+								<div class="list-group">
+									<a ng-repeat="ex in examples"
+									   ng-click="loadExample(ex)"
+									   ng-hide="expression === ex"
+									   href class="list-group-item">
+										{{ex}}
+										<span class="badge">
+											solve this
+										</span>
+									</a>
+								</div>
+							</div>
+							<div ng-show="renderMap.input" class="col_full panel panel-primary bottommargin-sm">
 								<div class="panel-heading">
 									<h2 class="panel-title">Input: </h2>
 								</div>
@@ -162,14 +178,14 @@
 									<span style="font-size: 17px" mathjax-bind="'$$'+expression+'$$'"></span>
 								</div>
 							</div>
-							<div class="col_full panel panel-default bottommargin-sm">
+							<div ng-show="renderMap.result" class="col_full panel panel-success bottommargin-sm">
 								<div class="panel-heading">
 									<div class="row">
 										<div class="col-md-6">
 											<h2 class="panel-title">Results: </h2>
 										</div>
 										<div class="col-md-6">
-											<a class="pull-right" ng-click="showSteps()" ng-show="result" href>View Step-by-Step Solution!</a>
+											<a class="pull-right" ng-click="show('steps'); hide('graph');" ng-show="result" href>View Step-by-Step Solution!</a>
 										</div>
 									</div>
 								</div>
@@ -188,25 +204,45 @@
 									</div>
 								</div>
 							</div>
-							<div ng-show="renderMap.steps" class="col_full panel panel-default bottommargin-sm">
+							<div ng-show="renderMap.steps" class="col_full panel panel-success bottommargin-sm">
 								<div class="panel-heading">
 									<div class="row">
 										<div class="col-md-6">
 											<h2 class="panel-title">Step by Step Breakdown</h2>
 										</div>
 										<div class="col-md-6">
-											<a ng-click="renderMap.steps = false" class="pull-right" href>Hide</a>
+											<a ng-click="show('graph'); hide('steps')" class="pull-right" href>Hide</a>
 										</div>
 									</div>
 								</div>
-								<div class="panel-body center">
+								<div class="panel-body">
 									<div ng-repeat="step in steps">
-										<rule-of-signs
-												maxPositive="step.data.max_positive"
-												maxNegative="step.data.max_negative"
-												polynomial="step.polynomial"></rule-of-signs>
+										<rule-of-signs ng-if="step.module === 'descarte'"
+													   max-positive="step.data.max_positive"
+													   max-negative="step.data.max_negative"
+													   poly-latex="expression"></rule-of-signs>
+										<synthetic-division ng-if="step.module === 'synthetic_division'"
+															input="step.data.input"
+															top="step.data.top"
+															middle="step.data.middle"
+															bottom="step.data.bottom"
+															input="step.data.input"
+															root="step.data.root"
+															result="step.data.polynomial"></synthetic-division>
+										<rational-zeros ng-if="step.module === 'zeros'"
+														potential="step.data.potential_zeros"
+														actual="step.data.actual_zeros"></rational-zeros>
+										<!--<quadratic-equation ng-if="step.module === 'quadratic_equation'"></quadratic-equation>-->
+									</div>
+									<div class="row">
+										<div class="col-md-6 col-md-offset-6 pull-right">
+											<span mathjax-bind="'$$ = '+result+'$$'"></span>
+										</div>
 									</div>
 								</div>
+							</div>
+							<div ng-show="renderMap.retry" class="col_full text-right">
+								<button ng-click="show('examples', 'graph'); hide('result', 'retry', 'steps');" class="button button-dirtygreen">Try Again</button>
 							</div>
 						</div>
 					</div>
@@ -332,72 +368,27 @@
 	============================================= -->
 	<script type="text/javascript" src="assets/js/functions.js"></script>
 
+	<script>
+		function initToggle(element){
+            var $toggle = element;
+            if( $toggle.length > 0 ) {
+                $toggle.each( function(){
+                    var element = $(this),
+                        elementState = element.attr('data-state');
+
+                    if( elementState !== 'open' ){
+                        element.children('.togglec').hide();
+                    } else {
+                        element.children('.togglet').addClass("toggleta");
+                    }
+
+                    element.children('.togglet').click(function(){
+                        $(this).toggleClass('toggleta').next('.togglec').slideToggle(300);
+                        return true;
+                    });
+                });
+            }
+		}
+	</script>
 </body>
 </html>
-
-
-<!--
-
-<div>
-	<div class="fancy-title title-bottom-border">
-		<h3>Step By Step Breakdown</h3>
-	</div>
-
-	<h5>Factoring polynomials gets pretty hard when you have arbitrary degrees! </h5>
-	<p>We must resort to more complex techniques like rational zero theorem, Gaussian elimination, and synthetic division.</p>
-
-	<div class="accordion accordion-bg clearfix">
-
-		<div class="acctitle">
-			<i class="acc-closed icon-ok-circle"></i>
-			<i class="acc-open icon-remove-circle"></i>
-			Step One: Potential Zeros
-			<a href onclick="window.location='http://sites.csn.edu/istewart/Math126/zeros_theorem/zeros_theorem.htm';" class="pull-right padlr">Learn More</a>
-		</div>
-		<div class="acc_content clearfix">
-			<h5>First we use some voodoo math to generate this list of <em>potential</em> zeros</h5>
-			<div class="row">
-				<div ng-repeat="zero in potentialZeros" class="col-sm-3">
-					<p>{{solverService.fractionToString(zero)}}</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="acctitle">
-			<i class="acc-closed icon-ok-circle"></i>
-			<i class="acc-open icon-remove-circle"></i>
-			Step Two: Check for Rational Zeros
-			<a href onclick="window.location='http://sites.csn.edu/istewart/Math126/zeros_theorem/zeros_theorem.htm';" class="pull-right padlr">Learn More</a>
-		</div>
-		<div class="acc_content clearfix">
-			<h5 ng-hide="noZeros">When we evaluate every one of our potential zeros, only these proved to be <em>actual</em> zeros</h5>
-			<h5 ng-show="noZeros" style="color: red">When we evaluate every one of our potential zeros, NONE of them proved to be <em>actual</em> zeros</h5>
-			<div class="row">
-				<div ng-repeat="zero in rationalZeros" class="col-sm-3">
-					<p>{{solverService.fractionToString(zero)}}</p>
-				</div>
-			</div>
-		</div>
-		<div class="acctitle" ng-hide="noZeros">
-			<i class="acc-closed icon-ok-circle"></i>
-			<i class="acc-open icon-remove-circle"></i>
-			Step Three: Finding Linear Factors
-			<a href onclick="window.location='http://sites.csn.edu/istewart/Math126/zeros_theorem/zeros_theorem.htm';" class="pull-right padlr">Learn More</a>
-		</div>
-		<div class="acc_content clearfix" ng-hide="noZeros">
-			<h5>Please remember that "linear factors" are of the form ax + b, where a and b are constants and the variable has a power of 1.
-				We have learned earlier that if a number r is a Zero of the polynomial function, then  is a linear factor of the function.
-				Knowing this we can write any polynomial function as a product of linear factors by simply replacing the r in the linear factor,
-				in turn, with every Zero and then connecting all of the linear factors with multiplication.</h5>
-			<h4 mathjax-bind="'$$'+result+'$$'"></h4>
-		</div>
-
-	</div>
-
-	<a ng-click="handleTryAgain()" class="button button-3d button-black nomargin pull-right">
-		Try Again
-	</a>
-</div>
-
-
--->

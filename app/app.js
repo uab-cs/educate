@@ -5,13 +5,22 @@
 var app = angular.module("app", ['ngJaxBind']);
 
 app.controller("AppController", function($scope){
-    $scope.expression = "12x^3-41x^2-38x+40";
-    // $scope.expression = "15x^3 + 14x^2 - 3x - 2";
+
     $scope.result = false;
     $scope.renderMap = {
         "steps": false,
-        "graph": true
+        "graph": true,
+        "result": false,
+        "input": true,
+        "examples": true,
+        "retry": false
     };
+    $scope.examples = [
+        "12x^3 - 41x^2 - 38x + 40",
+        "x^4 - 7x^3 + 17x^2 - 17x + 6",
+        "15x^3 + 14x^2 - 3x - 2"
+    ];
+    $scope.expression = $scope.examples[0];
 
     /* constructor */
     function init(){
@@ -33,25 +42,12 @@ app.controller("AppController", function($scope){
 
     $scope.go = function(polynomialExpression){
         var polynomial = window.polymath.parse(polynomialExpression);
-        var signs = polymath.ruleOfSigns(polynomial);
-        var zeros = polymath.rationalZeroTest(polynomial);
-        console.log(polynomial);
-        console.log(signs);
-        console.log(zeros);
-        var steps = [];
-        steps.push({
-            type: "signs",
-            data: signs,
-            polynomial: polynomial
-        });
-        $scope.steps = steps;
-        renderZeros(zeros.actual_zeros);
-    };
-
-    $scope.showSteps = function(){
-        swal("Coming Soon!");
-        $scope.renderMap.steps = true;
-        $scope.renderMap.graph = false;
+        var output = polymath.reduce(polynomial);
+        $scope.steps = output.steps;
+        show("result", "retry");
+        hide("examples");
+        renderZeros(output.roots);
+        console.log(output);
     };
 
     function renderZeros(zeros){
@@ -61,6 +57,10 @@ app.controller("AppController", function($scope){
         });
         $scope.result = latex.join("");
     }
+
+    $scope.loadExample = function loadExample(string){
+        $scope.expression = string;
+    };
 
     /**
      *
@@ -75,9 +75,9 @@ app.controller("AppController", function($scope){
             r = num;
         if(den === 1)
             r = num;
-        var sign = "+";
+        var sign = "-";
         if(root < 0)
-            sign = "-";
+            sign = "+";
         return "(x"+sign+r+")";
     }
 
@@ -91,6 +91,19 @@ app.controller("AppController", function($scope){
                 graphType: 'polyline'
             }]
         });
+    }
+
+    $scope.show = show;
+    $scope.hide = hide;
+    function show(item){
+        for (var i = 0; i < arguments.length; i++) {
+            $scope.renderMap[arguments[i]] = true;
+        }
+    }
+    function hide(item){
+        for (var i = 0; i < arguments.length; i++) {
+            $scope.renderMap[arguments[i]] = false;
+        }
     }
 
     init();

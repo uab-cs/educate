@@ -1,5 +1,5 @@
 angular.module("app")
-.directive("polynomial", function(){
+.directive("polyInput", function(){
     return {
         require: 'ngModel',
         link: function(scope, element, attr, mCtrl) {

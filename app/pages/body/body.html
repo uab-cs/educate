@@ -1,0 +1,134 @@
+<section id="content">
+
+    <div class="content-wrap">
+
+        <div class="container clearfix">
+
+            <div class="heading-block title-center nobottomborder page-section">
+                <h1>Factor N<sup>th</sup> Degree Polynomials</h1>
+                <span>Enter your expression below, and click go!</span>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2">
+
+                    <div class="center">
+                        <form name="inputForm" ng-submit="go(expression)">
+                            <div class="col_full">
+                                <div class="col_three_fourth">
+                                    <input class="sm-form-control"
+                                           ng-model="expression" poly-input
+                                           ng-change="parse(expression)"
+                                           ng-class="{ 'has-error' : inputForm.exp.$error.poly }"/>
+                                </div>
+                                <div class="col_one_fourth col_last">
+                                    <button class="button button-red nomargin"> Factor! </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="center">
+                        <div ng-show="inputForm.exp.$error.poly">
+                            <h3 style="color:red">Invalid Input</h3>
+                            <h5><em><span ng-bind="polyService.opCode.msg"></span></em></h5>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2">
+                    <div ng-show="is('examples')" class="col_full">
+                        <div class="fancy-title title-bottom-border">
+                            <h5>Examples</h5>
+                        </div>
+                        <div class="list-group">
+                            <a ng-repeat="ex in examples"
+                               ng-click="loadExample(ex)"
+                               ng-hide="expression === ex"
+                               href class="list-group-item">
+                                {{ex}}
+                                <span class="badge">
+											solve this
+										</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div ng-show="is('input')" class="col_full panel panel-primary bottommargin-sm">
+                        <div class="panel-heading">
+                            <h2 class="panel-title">Input: </h2>
+                        </div>
+                        <div class="panel-body center">
+                            <span style="font-size: 17px" mathjax-bind="'$$'+expression+'$$'"></span>
+                        </div>
+                    </div>
+                    <div ng-show="is('result')" class="col_full panel panel-success bottommargin-sm">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h2 class="panel-title">Results: </h2>
+                                </div>
+                                <div class="col-md-6">
+                                    <a class="pull-right" href>
+                                        <!-- Top Right Links -->
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <span ng-show="result" style="font-size: 17px" mathjax-bind="'$$'+result+'$$'"></span>
+                            <h3 ng-hide="result" class="nobottommargin" style="color: red">No Zeros Found!</h3>
+                            <div class="toggle toggle-border toggle-bg">
+                                <div class="togglet"><i class="toggle-closed icon-arrow-right"></i><i class="toggle-open icon-remove-circle"></i>
+                                    Step-by-Step Breakdown
+                                </div>
+                                <div class="togglec topmargin-sm">
+                                    <div ng-repeat="step in steps">
+                                        <rule-of-signs ng-if="step.module === 'descarte'"
+                                                       max-positive="step.data.max_positive"
+                                                       max-negative="step.data.max_negative"
+                                                       poly-latex="expression"></rule-of-signs>
+                                        <synthetic-division ng-if="step.module === 'synthetic_division'"
+                                                            input="step.data.input"
+                                                            top="step.data.top"
+                                                            middle="step.data.middle"
+                                                            bottom="step.data.bottom"
+                                                            input="step.data.input"
+                                                            root="step.data.root"
+                                                            result="step.data.polynomial"></synthetic-division>
+                                        <rational-zeros ng-if="step.module === 'zeros'"
+                                                        potential="step.data.potential_zeros"
+                                                        actual="step.data.actual_zeros"></rational-zeros>
+                                        <!--<quadratic-equation ng-if="step.module === 'quadratic_equation'"></quadratic-equation>-->
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-md-offset-6 pull-right">
+                                            <span mathjax-bind="'$$ = '+result+'$$'"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="is('graph')" class="col_full panel panel-primary bottommargin-sm">
+                        <div class="panel-heading">
+                            <h2 class="panel-title">Graph: </h2>
+                        </div>
+                        <div class="panel-body center">
+                            <div id="graph">
+                                <!-- Populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="is('retry')" class="col_full text-right">
+                        <button ng-click="show('examples', 'graph'); hide('result', 'retry');" class="button button-dirtygreen">Try Again</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

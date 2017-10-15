@@ -1,8 +1,12 @@
-/**
- * Created by Chris Rocco on 8/28/2017.
- */
 
-var app = angular.module("app", ['ngJaxBind']);
+var dependencies = [
+    /* internal */
+    "shared",
+    /* external */
+    "ngJaxBind"
+];
+
+var app = angular.module("app", dependencies);
 
 app.controller("AppController", function($scope){
 
@@ -18,7 +22,7 @@ app.controller("AppController", function($scope){
     $scope.examples = [
         "12x^3 - 41x^2 - 38x + 40",
         "x^4 - 7x^3 + 17x^2 - 17x + 6",
-        "15x^3 + 14x^2 - 3x - 2",
+        "15x^3 + 14x^2 - 3x - 2"
     ];
     $scope.expression = $scope.examples[0];
 
@@ -36,7 +40,7 @@ app.controller("AppController", function($scope){
         });
 
         $scope.$watch("expression", function(){
-            renderFunction($scope.expression, "#graph")
+            // renderFunction($scope.expression, "#graph")
         });
     }
 
@@ -82,6 +86,7 @@ app.controller("AppController", function($scope){
     }
 
 
+    /*
     function renderFunction(expression, selector){
         functionPlot({
             target: selector,
@@ -92,6 +97,7 @@ app.controller("AppController", function($scope){
             }]
         });
     }
+    */
 
     $scope.show = show;
     $scope.hide = hide;

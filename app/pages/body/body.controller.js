@@ -10,9 +10,9 @@ function uabBodyController($scope){
         "retry": false
     };
     $scope.examples = [
-        "12x^3 - 41x^2 - 38x + 40",
+        "15x^3 + 14x^2 - 3x - 2",
         "x^4 - 7x^3 + 17x^2 - 17x + 6",
-        "15x^3 + 14x^2 - 3x - 2"
+        "12x^3 - 41x^2 - 38x + 40"
     ];
     $scope.expression = $scope.examples[0];
 
@@ -29,8 +29,9 @@ function uabBodyController($scope){
             }
         });
 
+        /* reload graph on input change */
         $scope.$watch("expression", function(){
-            // renderFunction($scope.expression, "#graph")
+            renderFunction($scope.expression, "#graph")
         });
     }
 
@@ -52,10 +53,6 @@ function uabBodyController($scope){
         $scope.result = latex.join("");
     }
 
-    $scope.loadExample = function loadExample(string){
-        $scope.expression = string;
-    };
-
     /**
      *
      * @param root Fraction
@@ -76,7 +73,6 @@ function uabBodyController($scope){
     }
 
 
-    /*
     function renderFunction(expression, selector){
         functionPlot({
             target: selector,
@@ -87,7 +83,6 @@ function uabBodyController($scope){
             }]
         });
     }
-    */
 
     $scope.show = show;
     $scope.hide = hide;

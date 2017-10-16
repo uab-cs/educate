@@ -14,6 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "angular": "^1.6.6",
+    "d3": "^3.5.5",
     "function-plot": "^1.18.1",
     "mathjax": "^2.7.2",
     "mathjs": "^3.16.3",

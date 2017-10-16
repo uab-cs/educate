@@ -22,7 +22,7 @@
                                            ng-class="{ 'has-error' : inputForm.exp.$error.poly }"/>
                                 </div>
                                 <div class="col_one_fourth col_last">
-                                    <button class="button button-red nomargin"> Factor! </button>
+                                    <button class="button button-red nomargin"> Factor!</button>
                                 </div>
                             </div>
                         </form>
@@ -45,7 +45,7 @@
                         </div>
                         <div class="list-group">
                             <a ng-repeat="ex in examples"
-                               ng-click="loadExample(ex)"
+                               ng-click="expression = ex"
                                ng-hide="expression === ex"
                                href class="list-group-item">
                                 {{ex}}
@@ -80,7 +80,8 @@
                             <span ng-show="result" style="font-size: 17px" mathjax-bind="'$$'+result+'$$'"></span>
                             <h3 ng-hide="result" class="nobottommargin" style="color: red">No Zeros Found!</h3>
                             <div class="toggle toggle-border toggle-bg">
-                                <div class="togglet"><i class="toggle-closed icon-arrow-right"></i><i class="toggle-open icon-remove-circle"></i>
+                                <div class="togglet"><i class="toggle-closed icon-arrow-right"></i><i
+                                        class="toggle-open icon-remove-circle"></i>
                                     Step-by-Step Breakdown
                                 </div>
                                 <div class="togglec topmargin-sm">
@@ -122,7 +123,9 @@
                         </div>
                     </div>
                     <div ng-show="is('retry')" class="col_full text-right">
-                        <button ng-click="show('examples', 'graph'); hide('result', 'retry');" class="button button-dirtygreen">Try Again</button>
+                        <button ng-click="show('examples', 'graph'); hide('result', 'retry');"
+                                class="button button-dirtygreen">Try Again
+                        </button>
                     </div>
                 </div>
             </div>

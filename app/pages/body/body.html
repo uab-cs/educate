@@ -45,7 +45,7 @@
                         </div>
                         <div class="list-group">
                             <a ng-repeat="ex in examples"
-                               ng-click="expression = ex"
+                               ng-click="loadExample(ex)"
                                ng-hide="expression === ex"
                                href class="list-group-item">
                                 {{ex}}

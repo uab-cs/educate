@@ -16,6 +16,8 @@ function uabBodyController($scope){
     ];
     $scope.expression = $scope.examples[0];
 
+    $scope.loadExample = loadExample;
+
     /* constructor */
     function init(){
         /* debugging purposes only*/
@@ -70,6 +72,10 @@ function uabBodyController($scope){
         if(root < 0)
             sign = "+";
         return "(x"+sign+r+")";
+    }
+
+    function loadExample(ex){
+        $scope.expression = ex;
     }
 
 

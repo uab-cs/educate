@@ -13,6 +13,7 @@
   "author": "Chris Rocco",
   "license": "ISC",
   "dependencies": {
+    "@uirouter/angularjs": "^1.0.10",
     "angular": "^1.6.6",
     "d3": "^3.5.5",
     "function-plot": "^1.18.1",

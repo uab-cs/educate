@@ -42,15 +42,14 @@
 	<!-- ANGULAR
 	========================== -->
 	<script src="node_modules/angular/angular.min.js"></script>
+	<script src="node_modules/@uirouter/angularjs/release/angular-ui-router.min.js"></script>
 	<script src="vendor/ng-mathjax/ng-mathjax.js"></script>
 	<!-- shared -->
 	<script src="app/shared/shared.module.js"></script>
 	<script src="app/shared/header/header.directive.js"></script>
 	<script src="app/shared/footer/footer.directive.js"></script>
 	<!-- pages -->
-	<script src="app/pages/pages.module.js"></script>
-	<script src="app/pages/body/body.controller.js"></script>
-	<script src="app/pages/body/body.directive.js"></script>
+	<script src="app/pages/home/home.controller.js"></script>
 	<!-- app -->
 	<script src="app/app.js"></script>
 	<script src="app/validators/polynomial.directive.js"></script>
@@ -68,7 +67,7 @@
 
 		<uab-header></uab-header>
 
-		<uab-body></uab-body>
+		<ui-view></ui-view>
 
 		<uab-footer></uab-footer>
 

@@ -3,6 +3,7 @@ var dependencies = [
     "ui.router",
     /* internal */
     "shared",
+    "polymath",
     "home",
     /* external */
     "ngJaxBind"

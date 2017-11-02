@@ -1,5 +1,5 @@
 angular.module("home", [])
-    .controller("homeController", function ($scope){
+    .controller("homeController", function ($scope, polymath){
 
         $scope.result = false;
         $scope.renderMap = {
@@ -39,7 +39,7 @@ angular.module("home", [])
         }
 
         $scope.go = function(polynomialExpression){
-            var polynomial = window.polymath.parse(polynomialExpression);
+            var polynomial = polymath.parse(polynomialExpression);
             var output = polymath.reduce(polynomial);
             $scope.steps = output.steps;
             show("result", "retry");

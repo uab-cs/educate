@@ -23,7 +23,8 @@
                                            ng-class="{ 'has-error' : inputForm.exp.$error.poly }"/>
                                 </div>
                                 <div class="col_one_fourth col_last">
-                                    <button class="button button-red nomargin"> Factor!</button>
+                                    <button ng-disabled="backend==='java'"
+                                            class="button button-red nomargin"> Factor!</button>
                                 </div>
                             </div>
                         </form>
@@ -63,11 +64,21 @@
                         </div>
                     </div>
                     <div class="col_full">
-                        <label> Select a Back-end: </label>
-                        <select ng-model="backend" class="sm-form-control">
-                            <option value="node">NodeJS</option>
-                            <option value="haskell">Haskell</option>
-                        </select>
+                        <div class="col_three_fourth">
+                            <label> Select a Back-end: </label>
+                            <select ng-model="backend" class="sm-form-control">
+                                <option value="node">NodeJS</option>
+                                <option value="haskell">Haskell</option>
+                                <option value="ruby">Ruby</option>
+                                <option value="java">Java</option>
+                            </select>
+                        </div>
+                        <div class="col_one_fourth col_last">
+                            <img ng-if="backend==='node'" src="https://cdn2.iconfinder.com/data/icons/nodejs-1/512/nodejs-512.png"/>
+                            <img ng-if="backend==='haskell'" src="http://i.imgur.com/tuFExZl.png"/>
+                            <img ng-if="backend==='ruby'" src="http://budiirawan.com/wp-content/uploads/2015/04/ruby-logo.png"/>
+                            <img ng-if="backend==='java'" src="https://tinycode.hk/wp-content/uploads/2015/01/java-logo-png-300x300.png"/>
+                        </div>
                     </div>
                     <div ng-show="is('result')" class="col_full panel panel-success bottommargin-sm">
                         <div class="panel-heading">

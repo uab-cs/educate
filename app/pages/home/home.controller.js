@@ -1,6 +1,7 @@
 angular.module("home", [])
     .controller("homeController", function ($scope, polymath){
 
+        $scope.backend = window._env.mathProvider;
         $scope.result = false;
         $scope.renderMap = {
             "steps": false,
@@ -36,16 +37,23 @@ angular.module("home", [])
             $scope.$watch("expression", function(){
                 renderFunction($scope.expression, "#graph")
             });
+
+            $scope.$watch("backend", function(){
+              window._env.mathProvider = $scope.backend;
+            })
         }
 
         $scope.go = function(polynomialExpression){
             var polynomial = polymath.parse(polynomialExpression);
-            var output = polymath.reduce(polynomial);
-            $scope.steps = output.steps;
-            show("result", "retry");
-            hide("examples");
-            renderZeros(output.roots);
-            console.log(output);
+            polymath.reduce(polynomial).then(function(output){
+              $scope.$apply(function(){
+                $scope.steps = output.steps;
+                show("result", "retry");
+                hide("examples");
+                renderZeros(output.roots);
+                console.log(output);
+              });
+            });
         };
 
         function renderZeros(zeros){
@@ -70,7 +78,7 @@ angular.module("home", [])
             if(den === 1)
                 r = num;
             var sign = "-";
-            if(root < 0)
+            if(root.s < 0)
                 sign = "+";
             return "(x"+sign+r+")";
         }

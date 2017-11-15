@@ -35,6 +35,8 @@
 	<script src="node_modules/d3/d3.min.js"></script>
 	<script src="node_modules/function-plot/dist/function-plot.js"></script>
 
+	<script src=".env.js"></script>
+
 	<!-- POLYMATH LIBRARY
 	========================== -->
 	<script src="node_modules/polymath/bundles/polymath.js"></script>
@@ -46,13 +48,15 @@
 	<script src="vendor/ng-mathjax/ng-mathjax.js"></script>
 	<!-- shared -->
 	<script src="app/shared/shared.module.js"></script>
+	<script src="app/shared/services/haskell.js"></script>
+	<script src="app/shared/services/node.js"></script>
 	<script src="app/shared/services/polymath.js"></script>
 	<script src="app/shared/header/header.directive.js"></script>
 	<script src="app/shared/footer/footer.directive.js"></script>
 	<!-- pages -->
-	<script src="app/pages/home/home.controller.js"></script>
 	<!-- app -->
 	<script src="app/app.js"></script>
+	<script src="app/pages/home/home.controller.js"></script>
 	<script src="app/validators/polynomial.directive.js"></script>
 	<!-- steps -->
 	<script src="app/stepPanels/ruleOfSigns/ruleOfSigns.directive.js"></script>

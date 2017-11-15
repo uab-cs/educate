@@ -11,6 +11,7 @@ angular.module("app")
             controller: function($scope){
                 $scope.title = "Rational Zeros Test";
                 $scope.prettyFraction = function(mathjsFraction){
+                    if(!mathjsFraction) return;
                     var f = mathjsFraction;
                     var sign = (f.s < 0)? "-" : "+";
                     var num = f.n;

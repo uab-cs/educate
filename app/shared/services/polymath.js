@@ -1,8 +1,18 @@
-angular.module("polymath", [])
-.factory("polymath", function(){
+angular.module("shared")
+.factory("polymath", function(haskellProvider, nodeProvider){
 
-    /* TypeScript library */
-    return window.polymath;
+    return {
+      parse: window.polymath.parse,
+      reduce: function(input){
+        switch ( window._env.mathProvider){
+          case "haskell": return haskellProvider.reduce(input); break;
+          case "node": return nodeProvider.reduce(input); break;
+          default:
+            throw "Unsupported Math Provider";
+        }
+      }
+    };
+
 
 
 });
